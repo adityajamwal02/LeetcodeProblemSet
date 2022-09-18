@@ -1,0 +1,36 @@
+/*
+An array is monotonic if it is either monotone increasing or monotone decreasing.
+An array nums is monotone increasing if for all i <= j, nums[i] <= nums[j]. An array nums is monotone decreasing if for all i <= j, nums[i] >= nums[j].
+Given an integer array nums, return true if the given array is monotonic, or false otherwise.
+Example 1:
+Input: nums = [1,2,2,3]
+Output: true
+Example 2:
+Input: nums = [6,5,4,4]
+Output: true
+*/
+
+
+
+class Solution {
+public:
+    bool isMonotonic(vector<int>& nums) {
+        int countIncrease=0, countDecrease=0;
+        int n=nums.size();
+        for(int i=1;i<n;i++){
+            if(nums[i]>=nums[i-1])
+                countIncrease++;
+        }
+        if(countIncrease==n-1)
+            return true;
+
+        for(int i=1;i<n;i++){
+            if(nums[i]<=nums[i-1])
+                countDecrease++;
+        }
+        if(countDecrease==n-1)
+            return true;
+
+    return false;
+    }
+};
