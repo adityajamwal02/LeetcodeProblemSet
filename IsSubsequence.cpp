@@ -101,3 +101,23 @@ class Solution {
             return s.empty();
         }
 };
+
+/// 2 pointers
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        int n=s.size(), m=t.size();
+        if(n>m or (n==m and s!=t)) return false;
+        int i=0, j=0;
+        while(i<n and j<m){
+            if(s[i]==t[j]){
+                i++;
+                j++;
+            }else if(s[i]!=t[j]){
+                j++;
+            }
+        }
+    return i==n;
+    }
+};
