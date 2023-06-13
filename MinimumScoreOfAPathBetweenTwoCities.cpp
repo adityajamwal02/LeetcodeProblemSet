@@ -47,18 +47,52 @@ public:
 };
 
 
-/// Union find
+/// Union find Algorithm
 
-int f[100001], c[100001];
-int find(int x) {
-    return f[x] == 0 || f[x] == x ? f[x] = x : f[x] = find(f[x]);
-}
-int minScore(int n, vector<vector<int>>& e) {
-    for (auto &z : e) {
-        int x = find(z[0]), t = z[2] - 10001;
-        int y = find(z[1]);
-        f[x] = y;
-        c[y] = min({c[x], c[y], t});
+class Solution {
+public:
+    vector<int> root, rank;
+    
+    int find(int x){
+        if(x == root[x])
+            return root[x];
+        return root[x] = find(root[x]);
     }
-    return c[find(1)] + 10001;
-}
+    
+    void createUnion(int x, int y){
+        int rootX = find(x);
+        int rootY = find(y);
+        if(rootX == rootY)
+            return;
+        if(rank[rootX] < rank[rootY])
+            root[rootX] = rootY;
+        else if(rank[rootX] > rank[rootY])
+            root[rootY] = rootX;
+        else{
+            root[rootY] = rootX;
+            rank[rootX]++;
+        }
+    }
+    
+    int minScore(int n, vector<vector<int>>& roads) {
+        root.resize(n + 1);
+        rank.resize(n + 1);
+        for(int i = 0; i < n; i++){
+            root[i] = i;
+            rank[i] = 0;
+        }
+        int minScore = INT_MAX;
+        for (auto road : roads) {
+            createUnion(road[0], road[1]);
+        }
+        for (auto road : roads) {
+            int root1 = find(1);
+            int rootX = find(road[0]);
+            int rootY = find(road[1]);
+            if (root1 == rootX && root1 == rootY) {
+                minScore = min(minScore, road[2]);
+            }
+        }
+        return minScore;
+    }
+};
