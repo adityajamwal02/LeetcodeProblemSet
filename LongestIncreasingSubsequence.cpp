@@ -37,3 +37,16 @@ public:
     return len;
     }
 };
+
+/// Optimized  (O(nlogn))
+
+int longestIncreasingSubsequence(int nums[], int n)
+{
+    vector<int> result;
+    for(int i=0;i<n;i++){
+        auto it = lower_bound(result.begin(), result.end(),nums[i]);
+        if(it==result.end()) result.push_back(nums[i]);
+        else *it=nums[i];
+    }
+  return result.size();
+}
